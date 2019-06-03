@@ -15,6 +15,9 @@
 #include "pool_global.h"
 #endif
 
+extern zend_class_entry* pdo_connect_pool_server_object;
+extern zend_class_entry* redis_connect_pool_server_object;
+
 //引入工厂
 #ifndef CONNECT_POOL_ZEND_CONNECT_POOL_H
 #include "zend_connect_pool_factory.h"

@@ -81,7 +81,9 @@ if test "$PHP_CONNECT_POOL" != "no"; then
   PHP_NEW_EXTENSION(connect_pool,\
   connect_pool.c \
   global/global_lib.c \
-  interface/zend_connect_pool_factory.c, $ext_shared)
+  interface/zend_connect_pool_factory.c \
+  interface/zend_pdo_connect_pool.c \
+  interface/zend_redis_connect_pool.c, $ext_shared)
   PHP_ADD_INCLUDE([$ext_srcdir/interface])
   PHP_ADD_INCLUDE([$ext_srcdir/global])
 fi

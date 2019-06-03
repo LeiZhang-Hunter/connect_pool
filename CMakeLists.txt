@@ -29,6 +29,10 @@ set(SOURCE_FILES
         connect_pool.c
         interface/zend_connect_pool_factory.h
         interface/zend_connect_pool_factory.c
+        interface/zend_pdo_connect_pool.h
+        interface/zend_pdo_connect_pool.c
+        interface/zend_redis_connect_pool.h
+        interface/zend_redis_connect_pool.c
         global/pool_global.h
         global/global_lib.c
         )

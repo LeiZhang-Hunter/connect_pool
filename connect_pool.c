@@ -90,6 +90,8 @@ static const zend_function_entry connect_pool_functions[] = {
 
 PHP_MINIT_FUNCTION(connect_pool)
 {
+	connect_pdo_pool_server_init();
+    connect_redis_pool_server_init();
     connect_pool_factory_init();
     return  SUCCESS;
 }

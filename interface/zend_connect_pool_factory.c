@@ -28,6 +28,8 @@ PHP_METHOD(ConnectPoolFactory,selectFactory)
             Z_PARAM_STR(select_mode)
     ZEND_PARSE_PARAMETERS_END();
 
+    zval val_object;
+
     char* a = Z_STRVAL((select_mode));
     php_printf("%s\n",Z_STRVAL((select_mode)));
 
@@ -36,11 +38,21 @@ PHP_METHOD(ConnectPoolFactory,selectFactory)
     {
         if(factory_global_variable.check_pdo_run() == PDO_RUN)
         {
-            zend_error(E_WARNING, "pdo_connect_pool has been run");
+            zend_error(E_WARNING, "pdo connect pool has been run");
             RETURN_FALSE
         }
+        //设置标志位为运行状态
         factory_global_variable.run_pdo_pool();
-        RETURN_TRUE
+
+        if(!pdo_connect_pool_server_object)
+        {
+            zend_error(E_WARNING,"init pdo connect pool object is error");
+            RETURN_NULL()
+        }
+
+
+        object_init_ex(&val_object,pdo_connect_pool_server_object);
+        RETURN_ZVAL(&val_object,1,0);
     }
 
     //检查redis模式下池子运行状况启动池子
@@ -48,11 +60,20 @@ PHP_METHOD(ConnectPoolFactory,selectFactory)
     {
         if(factory_global_variable.check_redis_run() == REDIS_RUN)
         {
-            zend_error(E_WARNING, "pdo_connect_pool has been run");
+            zend_error(E_WARNING, "redis connect pool has been run");
             RETURN_FALSE
         }
+
+        //设置redis的标志位为启动
         factory_global_variable.run_redis_pool();
-        RETURN_TRUE
+
+        if(!redis_connect_pool_server_object)
+        {
+            zend_error(E_WARNING, "init redis connect pool is error");
+            RETURN_FALSE
+        }
+        object_init_ex(&val_object,redis_connect_pool_server_object);
+        RETURN_ZVAL(&val_object,1,0);
     }
 }
 
