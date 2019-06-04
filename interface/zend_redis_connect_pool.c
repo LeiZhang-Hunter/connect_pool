@@ -15,6 +15,7 @@ zend_function_entry connect_redis_pool_server_struct[] = {
 
 PHP_METHOD(RedisConnectPoolServer,__construct)
 {
+
 }
 
 

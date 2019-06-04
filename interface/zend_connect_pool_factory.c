@@ -8,16 +8,17 @@
 
 const zend_function_entry connect_pool_factory_struct[] = {
     PHP_ME(ConnectPoolFactory,__construct,NULL, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
-    PHP_ME(ConnectPoolFactory,selectFactory,select_factory_arg, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+    PHP_ME(ConnectPoolFactory,selectFactory,select_factory_arg, ZEND_ACC_PUBLIC)
+//    PHP_ME(ConnectPoolFactory,selectFactory,select_factory_arg, setConfig)
     PHP_ME(ConnectPoolFactory,__destruct,NULL, ZEND_ACC_PUBLIC | ZEND_ACC_DTOR)
     PHP_FE_END
 };
 
-globals_lib factory_global_variable;
+pool_container container;
 
 PHP_METHOD(ConnectPoolFactory,__construct)
 {
-    init_globals_lib(&factory_global_variable);
+    init_container(&container);
 }
 
 //选择模式
@@ -31,18 +32,17 @@ PHP_METHOD(ConnectPoolFactory,selectFactory)
     zval val_object;
 
     char* a = Z_STRVAL((select_mode));
-    php_printf("%s\n",Z_STRVAL((select_mode)));
 
     //检查pdo模式下池子运行状况启动池子
     if(strcmp(Z_STRVAL((select_mode)),"pdo") == 0)
     {
-        if(factory_global_variable.check_pdo_run() == PDO_RUN)
+        if(container.check_pdo_run() == PDO_RUN)
         {
             zend_error(E_WARNING, "pdo connect pool has been run");
             RETURN_FALSE
         }
         //设置标志位为运行状态
-        factory_global_variable.run_pdo_pool();
+        container.run_pdo_pool();
 
         if(!pdo_connect_pool_server_object)
         {
@@ -58,14 +58,14 @@ PHP_METHOD(ConnectPoolFactory,selectFactory)
     //检查redis模式下池子运行状况启动池子
     if(strcmp(Z_STRVAL((select_mode)),"redis") == 0)
     {
-        if(factory_global_variable.check_redis_run() == REDIS_RUN)
+        if(container.check_redis_run() == REDIS_RUN)
         {
             zend_error(E_WARNING, "redis connect pool has been run");
             RETURN_FALSE
         }
 
         //设置redis的标志位为启动
-        factory_global_variable.run_redis_pool();
+        container.run_redis_pool();
 
         if(!redis_connect_pool_server_object)
         {
@@ -75,6 +75,11 @@ PHP_METHOD(ConnectPoolFactory,selectFactory)
         object_init_ex(&val_object,redis_connect_pool_server_object);
         RETURN_ZVAL(&val_object,1,0);
     }
+}
+
+PHP_METHOD(ConnectPoolFactory,setConfig)
+{
+
 }
 
 

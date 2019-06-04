@@ -12,6 +12,8 @@ zend_class_entry* pdo_connect_pool_server_object;
 
 PHP_METHOD(PdoConnectPoolServer,__construct);
 
+PHP_METHOD(PdoConnectPoolServer,run);
+
 
 PHP_METHOD(PdoConnectPoolServer,__destruct);
 

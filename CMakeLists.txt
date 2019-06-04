@@ -15,6 +15,7 @@ ENDIF(CMAKE_COMPILER_IS_GNUCC)
 
 #引入php需要的扩展源码，这里也是根据自己需要的来更改
 include_directories(/home/zhanglei/ourc/php-7.3.2/ext/connect_pool/)
+include_directories(/home/zhanglei/ourc/php-7.3.2/ext/connect_pool/include/)
 include_directories(/home/zhanglei/ourc/php-7.3.2/ext/connect_pool/interface)
 include_directories(/home/zhanglei/ourc/php-7.3.2/ext/connect_pool/global)
 include_directories(${PHP_SOURCE}/main/)
@@ -33,8 +34,10 @@ set(SOURCE_FILES
         interface/zend_pdo_connect_pool.c
         interface/zend_redis_connect_pool.h
         interface/zend_redis_connect_pool.c
-        global/pool_global.h
-        global/global_lib.c
+        global/pool_container.h
+        global/pool_container.c
+        include/actor/pool_manage.h
+        include/actor/pool_manage.c
         )
 
 add_executable(connect_pool ${SOURCE_FILES})
