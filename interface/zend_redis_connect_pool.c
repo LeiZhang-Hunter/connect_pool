@@ -4,7 +4,7 @@
 
 #ifndef CONNECT_POOL_COMMON_H
 
-#include "../common.h"
+#include "common.h"
 #endif
 
 zend_function_entry connect_redis_pool_server_struct[] = {

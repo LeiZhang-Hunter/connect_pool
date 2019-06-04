@@ -1,7 +1,10 @@
 //
 // Created by zhanglei on 19-6-4.
 //
+#ifndef CONNECT_POOL_COMMON_H
 #include "common.h"
+
+#endif
 
 int pool_factory_manage_init(pool_factory_manage* manager)
 {

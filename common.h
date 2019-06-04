@@ -35,6 +35,5 @@ extern zend_class_entry* redis_connect_pool_server_object;
 
 //引入管理者的库
 #ifndef CONNECT_POOL_POOL_MANAGE_H
-#define CONNECT_POOL_POOL_MANAGE_H
 #include "actor/pool_manage.h"
 #endif //CONNECT_POOL_POOL_MANAGE_H

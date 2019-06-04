@@ -3,8 +3,7 @@
 //
 #ifndef CONNECT_POOL_COMMON_H
 
-#include <SAPI.h>
-#include "../common.h"
+#include "common.h"
 #endif
 
 zend_function_entry connect_pdo_pool_server_struct[] = {
@@ -23,11 +22,11 @@ PHP_METHOD(PdoConnectPoolServer,__construct)
 PHP_METHOD(PdoConnectPoolServer,run)
 {
     //检查是否在cli模式下运行
-    if(strcasecmp("cli",sapi_module.name) != 0)
-    {
-        zend_error(E_WARNING,"server process must run in cli");
-        RETURN_FALSE
-    }
+//    if(strcasecmp("cli",sapi_module.name) != 0)
+//    {
+//        zend_error(E_WARNING,"server process must run in cli");
+//        RETURN_FALSE
+//    }
 
 
 }
