@@ -9,7 +9,6 @@
 const zend_function_entry connect_pool_factory_struct[] = {
     PHP_ME(ConnectPoolFactory,__construct,NULL, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
     PHP_ME(ConnectPoolFactory,selectFactory,select_factory_arg, ZEND_ACC_PUBLIC)
-//    PHP_ME(ConnectPoolFactory,selectFactory,select_factory_arg, setConfig)
     PHP_ME(ConnectPoolFactory,__destruct,NULL, ZEND_ACC_PUBLIC | ZEND_ACC_DTOR)
     PHP_FE_END
 };
@@ -75,11 +74,6 @@ PHP_METHOD(ConnectPoolFactory,selectFactory)
         object_init_ex(&val_object,redis_connect_pool_server_object);
         RETURN_ZVAL(&val_object,1,0);
     }
-}
-
-PHP_METHOD(ConnectPoolFactory,setConfig)
-{
-
 }
 
 

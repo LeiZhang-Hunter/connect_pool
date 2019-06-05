@@ -7,6 +7,9 @@
 
 #endif //CONNECT_POOL_POOL_GLOBAL_H
 
+#ifndef CONNECT_POOL_POOL_MANAGE_H
+#include "actor/pool_master.h"
+#endif
 
 ZEND_BEGIN_MODULE_GLOBALS(pool_factory)
 
@@ -30,17 +33,20 @@ static int alloc_globals_id;
 //定义一个操作全局变量的库
 typedef struct pool_container_struct{
 
-    uint16_t pid;
 
+    //设置pdo的运行位
     int (*check_pdo_run)();
 
+    //设置pdo的运行位
     int (*run_pdo_pool)();
 
     int (*run_redis_pool)();
 
     int (*check_redis_run)();
 
-    int (*set_manager_pid)();
+    int (*set_manager_pid)(struct pool_container_struct* handle,uint16_t pid);
+
+    factory_master* master;
 
 }pool_container;
 
@@ -58,9 +64,6 @@ int run_redis_pool();
 
 //检查redis是否开启
 int check_redis();
-
-//设置管理者的pid
-int set_manager_pid();
 
 //枚举状态位
 enum {

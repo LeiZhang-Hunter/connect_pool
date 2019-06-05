@@ -10,6 +10,7 @@
 #include "php.h"
 #include "ext/standard/info.h"
 #include "php_connect_pool.h"
+#include <SAPI.h>
 
 #ifndef CONNECT_POOL_POOL_CONTAINER_H
 #include "pool_container.h"
@@ -22,6 +23,8 @@ extern zend_class_entry* redis_connect_pool_server_object;
 #ifndef CONNECT_POOL_ZEND_CONNECT_POOL_H
 #include "zend_connect_pool_factory.h"
 #endif
+
+extern pool_container container;
 
 //引入PDO库
 #ifndef CONNECT_POOL_ZEND_PDO_CONNECT_POOL_H
@@ -37,3 +40,11 @@ extern zend_class_entry* redis_connect_pool_server_object;
 #ifndef CONNECT_POOL_POOL_MANAGE_H
 #include "actor/pool_manage.h"
 #endif //CONNECT_POOL_POOL_MANAGE_H
+
+#ifndef CONNECT_POOL_POOL_MASTER_H
+#include "actor/pool_master.h"
+#endif
+
+#ifndef CONNECT_POOL_POOL_WORKER_H
+#include "actor/pool_worker.h"
+#endif

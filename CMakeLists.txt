@@ -36,8 +36,12 @@ set(SOURCE_FILES
         interface/zend_redis_connect_pool.c
         global/pool_container.h
         global/pool_container.c
+        include/actor/pool_master.h
+        include/actor/pool_master.c
         include/actor/pool_manage.h
         include/actor/pool_manage.c
+        include/actor/pool_worker.h
+        include/actor/pool_worker.c
         )
 
 add_executable(connect_pool ${SOURCE_FILES})

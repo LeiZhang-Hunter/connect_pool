@@ -22,13 +22,14 @@ PHP_METHOD(PdoConnectPoolServer,__construct)
 PHP_METHOD(PdoConnectPoolServer,run)
 {
     //检查是否在cli模式下运行
-//    if(strcasecmp("cli",sapi_module.name) != 0)
-//    {
-//        zend_error(E_WARNING,"server process must run in cli");
-//        RETURN_FALSE
-//    }
+    if(strcasecmp("cli",sapi_module.name) != 0)
+    {
+        zend_error(E_WARNING,"server process must run in cli");
+        RETURN_FALSE
+    }
 
-
+    //创建工厂的管理者
+    container.master->create_master(container.master);
 }
 
 PHP_METHOD(PdoConnectPoolServer,__destruct)

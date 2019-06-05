@@ -17,7 +17,11 @@ int init_container(pool_container* handle)
     handle->run_pdo_pool = run_pdo_pool;
     handle->check_redis_run = check_redis;
     handle->run_redis_pool = run_redis_pool;
-    handle->set_manager_pid = set_manager_pid;
+
+    //初始化管理进程
+    factory_master* master = emalloc(sizeof(factory_master));
+    init_master(master);
+    handle->master = master;
     return SUCCESS;
 }
 
@@ -55,7 +59,3 @@ int check_redis()
     return REDIS_STOP;
 }
 
-int set_manager_pid()
-{
-
-}
