@@ -42,6 +42,10 @@ set(SOURCE_FILES
         include/actor/pool_manage.c
         include/actor/pool_worker.h
         include/actor/pool_worker.c
+        include/actor/pool_reactor.h
+        include/actor/pool_reactor.c
+        include/lib/share_memory.h
+        include/lib/share_memory.c
         )
 
 add_executable(connect_pool ${SOURCE_FILES})

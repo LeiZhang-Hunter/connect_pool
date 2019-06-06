@@ -85,7 +85,9 @@ if test "$PHP_CONNECT_POOL" != "no"; then
   interface/zend_pdo_connect_pool.c \
   interface/zend_redis_connect_pool.c \
   include/actor/pool_manage.c \
-  include/actor/pool_master.c, $ext_shared)
+  include/actor/pool_master.c \
+  include/actor/pool_worker.c \
+  include/actor/pool_reactor.c, $ext_shared)
   PHP_ADD_INCLUDE([$ext_srcdir/interface])
   PHP_ADD_INCLUDE([$ext_srcdir/global])
   PHP_ADD_INCLUDE([$ext_srcdir/include])

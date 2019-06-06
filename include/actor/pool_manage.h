@@ -19,6 +19,8 @@ typedef struct _pool_factory_manage{
     //创建一个管理者
     pid_t(*create_manager)();
 
+    factory_worker** worker_pool;
+
     //工作者
     factory_worker* worker;
 

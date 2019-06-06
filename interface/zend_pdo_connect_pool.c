@@ -9,12 +9,26 @@
 zend_function_entry connect_pdo_pool_server_struct[] = {
         PHP_ME(PdoConnectPoolServer,__construct,NULL, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
         PHP_ME(PdoConnectPoolServer,run,NULL, ZEND_ACC_PUBLIC)
+        PHP_ME(PdoConnectPoolServer,setConfig,pdo_factory_config, ZEND_ACC_PUBLIC)
         PHP_ME(PdoConnectPoolServer,__destruct,NULL, ZEND_ACC_PUBLIC | ZEND_ACC_DTOR)
         PHP_FE_END
 };
 
 PHP_METHOD(PdoConnectPoolServer,__construct)
 {
+
+}
+
+//加载配置
+PHP_METHOD(PdoConnectPoolServer,setConfig)
+{
+    zval* config;
+    ZEND_PARSE_PARAMETERS_START(1, 1)
+            Z_PARAM_ARRAY(config)
+    ZEND_PARSE_PARAMETERS_END();
+
+    //加载配置
+    container.load_config(config);
 
 }
 
@@ -28,9 +42,13 @@ PHP_METHOD(PdoConnectPoolServer,run)
         RETURN_FALSE
     }
 
+    container.run = 1;
     //创建工厂的管理者
-    container.master->create_master(container.master);
+    pid_t master_pid = container.master->create_master(container.master);
+
 }
+
+
 
 PHP_METHOD(PdoConnectPoolServer,__destruct)
 {

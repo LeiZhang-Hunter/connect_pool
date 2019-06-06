@@ -11,6 +11,10 @@
 #include "ext/standard/info.h"
 #include "php_connect_pool.h"
 #include <SAPI.h>
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <wait.h>
+#include <pthread.h>
 
 #ifndef CONNECT_POOL_POOL_CONTAINER_H
 #include "pool_container.h"
@@ -47,4 +51,14 @@ extern pool_container container;
 
 #ifndef CONNECT_POOL_POOL_WORKER_H
 #include "actor/pool_worker.h"
+#endif
+
+#ifndef CONNECT_POOL_SHARE_MEMORY_H
+
+#include "lib/share_memory.h"
+#endif
+
+
+#ifndef CONNECT_POOL_POOL_REACTOR_H
+#include "actor/pool_reactor.h"
 #endif
