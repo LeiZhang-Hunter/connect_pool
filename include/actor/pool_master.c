@@ -4,6 +4,8 @@
 
 #ifndef CONNECT_POOL_COMMON_H
 
+#include <netinet/in.h>
+#include <arpa/inet.h>
 #include "common.h"
 #endif
 
@@ -99,6 +101,52 @@ pid_t create_master(factory_master* master_handle)
     {
         //装载master的pid
         container.master_pid = pid;
+
+        int sockfd = socket(AF_INET,SOCK_STREAM,0);
+
+        int res;
+
+        if(sockfd <= 0)
+        {
+            zend_error(E_ERROR,"create server socket error,errno:%d,errormsg:%s",errno,strerror(errno));
+        }
+
+        struct sockaddr_in socket_addr;
+
+        socket_addr.sin_family = AF_INET;
+
+        socket_addr.sin_port = htons(container.port);
+
+        socket_addr.sin_addr.s_addr = inet_addr(container.ip);
+        res = bind(sockfd,(struct sockaddr*)&socket_addr,sizeof(socket_addr));
+
+        if(res == -1)
+        {
+            zend_error(E_ERROR,"bind  socket error,errno:%d,errormsg:%s",errno,strerror(errno));
+        }
+
+        res = listen(sockfd,container.backlog);
+        if(res == -1)
+        {
+            zend_error(E_ERROR,"listen  socket error,errno:%d,errormsg:%s",errno,strerror(errno));
+        }
+        //这里使用select就可以了因为我们这里只需要检测一个套接字
+
+        fd_set set;
+
+        FD_ZERO(&set);
+
+        FD_SET(sockfd,&set);
+
+        while(container.run)
+        {
+            select(sockfd+1,&set,NULL,NULL,NULL);
+
+            if(FD_ISSET(sockfd,&set))
+            {
+                //套接字准备就绪了准备发送到对应的reactor线程
+            }
+        }
 //        return  pid;
     }else{
 //        php_printf("run begin3\n");
