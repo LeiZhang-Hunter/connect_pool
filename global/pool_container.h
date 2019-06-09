@@ -77,6 +77,8 @@ typedef struct pool_container_struct{
     //工厂主的master
     factory_master* master;
 
+    factory_reactor** reactor_pool;
+
 }pool_container;
 
 #define GET_CONTAINER_MANAGER container.master->manager

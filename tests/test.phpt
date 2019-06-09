@@ -8,6 +8,6 @@ $pdo_pool->setConfig([
     "reactor_num"=>1,
 ]);
 //运行pdo池子
-$pdo_pool->run();
+$r = $pdo_pool->run();
 
-var_dump($pdo_pool);
+var_dump($r);

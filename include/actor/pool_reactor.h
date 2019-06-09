@@ -8,10 +8,16 @@
 #endif //CONNECT_POOL_POOL_REACTOR_H
 
 typedef struct _reactor{
-    int (*create)();
+    int reactor_index;
+    pthread_t (*create)(int index);
+    int* reactor_pipe;
+    pthread_t thread_id;
 }factory_reactor;
 
-int create_reactor();
+pthread_t create_reactor(int index);
+
+//申请一个reactor线程池
+factory_reactor** alloc_reactor_pool(int number);
 
 void* reactor_thread_loop();
 

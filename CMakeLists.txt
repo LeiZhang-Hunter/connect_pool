@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 11)
 
 
 #定义php源码路径，这里根据自己的真实路径来更改
-set(PHP_SOURCE /home/zhanglei/ourc/php-7.3.2)
+set(PHP_SOURCE /home/zhanglei/zhanglei/php-7.3.4)
 # Add -O0 to remove optimizations when using gcc
 IF(CMAKE_COMPILER_IS_GNUCC)
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
@@ -14,10 +14,10 @@ IF(CMAKE_COMPILER_IS_GNUCC)
 ENDIF(CMAKE_COMPILER_IS_GNUCC)
 
 #引入php需要的扩展源码，这里也是根据自己需要的来更改
-include_directories(/home/zhanglei/ourc/php-7.3.2/ext/connect_pool/)
-include_directories(/home/zhanglei/ourc/php-7.3.2/ext/connect_pool/include/)
-include_directories(/home/zhanglei/ourc/php-7.3.2/ext/connect_pool/interface)
-include_directories(/home/zhanglei/ourc/php-7.3.2/ext/connect_pool/global)
+include_directories(/home/zhanglei/zhanglei/connect_pool)
+include_directories(/home/zhanglei/zhanglei/connect_pool/include/)
+include_directories(/home/zhanglei/zhanglei/connect_pool/interface)
+include_directories(/home/zhanglei/zhanglei/connect_pool/global)
 include_directories(${PHP_SOURCE}/main/)
 include_directories(${PHP_SOURCE}/Zend/)
 include_directories(${PHP_SOURCE}/sapi/)
