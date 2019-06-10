@@ -15,6 +15,8 @@
 #include <sys/mman.h>
 #include <wait.h>
 #include <pthread.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 
 #ifndef CONNECT_POOL_POOL_CONTAINER_H
 #include "pool_container.h"
@@ -61,4 +63,8 @@ extern pool_container container;
 
 #ifndef CONNECT_POOL_POOL_REACTOR_H
 #include "actor/pool_reactor.h"
+#endif
+
+#ifndef CONNECT_POOL_SOCKET_LIB_H
+#include "lib/socket_lib.h"
 #endif

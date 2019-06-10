@@ -2,10 +2,12 @@
 // Created by zhanglei on 19-6-5.
 //
 
+
 #ifndef CONNECT_POOL_POOL_REACTOR_H
 #define CONNECT_POOL_POOL_REACTOR_H
 
 #endif //CONNECT_POOL_POOL_REACTOR_H
+
 
 typedef struct _reactor{
     int reactor_index;
@@ -13,6 +15,8 @@ typedef struct _reactor{
     int* reactor_pipe;
     pthread_t thread_id;
 }factory_reactor;
+
+#define GET_REACTOR_INDEX(sockfd) sockfd%container.reactor_num
 
 pthread_t create_reactor(int index);
 

@@ -4,8 +4,7 @@
 
 #ifndef CONNECT_POOL_COMMON_H
 
-#include <netinet/in.h>
-#include <arpa/inet.h>
+
 #include "common.h"
 #endif
 
@@ -102,41 +101,33 @@ pid_t create_master(factory_master* master_handle)
         //装载master的pid
         container.master_pid = pid;
 
-        int sockfd = socket(AF_INET,SOCK_STREAM,0);
+        factory_socket socket_lib;
 
-        int res;
+        init_factory_socket(&socket_lib);
 
-        if(sockfd <= 0)
-        {
-            zend_error(E_ERROR,"create server socket error,errno:%d,errormsg:%s",errno,strerror(errno));
-        }
+        int sockfd;
 
-        struct sockaddr_in socket_addr;
+        //管道的编号
+        int pipe_index;
 
-        socket_addr.sin_family = AF_INET;
+        socklen_t clilen;
 
-        socket_addr.sin_port = htons(container.port);
+        int connfd;
 
-        socket_addr.sin_addr.s_addr = inet_addr(container.ip);
-        res = bind(sockfd,(struct sockaddr*)&socket_addr,sizeof(socket_addr));
+        sockfd = socket_lib.create();
 
-        if(res == -1)
-        {
-            zend_error(E_ERROR,"bind  socket error,errno:%d,errormsg:%s",errno,strerror(errno));
-        }
+        socket_lib.bind(sockfd,container.ip,container.port);
 
-        res = listen(sockfd,container.backlog);
-        if(res == -1)
-        {
-            zend_error(E_ERROR,"listen  socket error,errno:%d,errormsg:%s",errno,strerror(errno));
-        }
+        socket_lib.listen(sockfd,container.backlog);
+
         //这里使用select就可以了因为我们这里只需要检测一个套接字
-
         fd_set set;
 
         FD_ZERO(&set);
 
         FD_SET(sockfd,&set);
+
+        int *reactor_pipe;
 
         while(container.run)
         {
@@ -145,6 +136,28 @@ pid_t create_master(factory_master* master_handle)
             if(FD_ISSET(sockfd,&set))
             {
                 //套接字准备就绪了准备发送到对应的reactor线程
+                struct sockaddr_in cliaddr;
+                clilen = sizeof(cliaddr);
+                connfd = socket_lib.accept(sockfd,&cliaddr,&clilen);
+
+                //剩下的EINTR错误码我们可以不需要再那么关心了
+                if(connfd > 0) {
+                    //获取管道的索引
+                    pipe_index = GET_REACTOR_INDEX(connfd);
+
+                    reactor_pipe = container.reactor_pool[pipe_index]->reactor_pipe;
+
+                    php_printf("fd:%d\n",connfd);
+
+                    //关闭读端
+//                    close(reactor_pipe[0]);
+
+//                    char buf[1024];
+
+//                    sprintf(buf,"%d\r\n\r\n",connfd);
+
+//                    write(reactor_pipe[1],buf, sizeof(buf));
+                }
             }
         }
 //        return  pid;
